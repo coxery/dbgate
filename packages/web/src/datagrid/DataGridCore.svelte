@@ -465,7 +465,7 @@
   export let onOpenQuery = null;
   export let jslid;
   // export let generalAllowSave = false;
-  export let hideGridLeftColumn = false;
+  export let hideGridLeftColumn = true;
 
   export const activator = createActivator('DataGridCore', false);
 

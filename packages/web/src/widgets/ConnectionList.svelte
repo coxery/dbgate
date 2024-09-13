@@ -58,6 +58,7 @@
     for (const conid of $openedConnections) {
       apiCall('server-connections/refresh', { conid });
     }
+    apiCall('database-connections/refresh', { conid, database });
   };
 
   const handleDropOnGroup = (data, group) => {
@@ -109,10 +110,48 @@
       { text: 'Delete', onClick: handleDelete },
     ];
   }
+
+  import { useConnectionInfo, useDatabaseInfo, useDatabaseStatus, useUsedApps } from '../utility/metadataLoaders';
+  import * as databaseObjectAppObject from '../appobj/DatabaseObjectAppObject.svelte';
+  import SubColumnParamList from '../appobj/SubColumnParamList.svelte';
+  import { getObjectTypeFieldLabel } from '../utility/common';
+  import { findEngineDriver } from 'dbgate-tools';
+  import { currentDatabase, extensions } from '../stores';
+  import { filterAppsForDatabase } from '../utility/appTools';
+
+  $: conid = $currentDatabase?.connection?._id;
+  $: database = $currentDatabase?.name;
+
+  $: objects = useDatabaseInfo({ conid, database });
+  $: status = useDatabaseStatus({ conid, database });
+
+  $: connection = useConnectionInfo({ conid });
+  $: driver = findEngineDriver($connection, $extensions);
+
+  $: apps = useUsedApps();
+
+  $: dbApps = filterAppsForDatabase($currentDatabase?.connection, $currentDatabase?.name, $apps || []);
+
+  $: objectList = _.flatten([
+    ...['tables', 'collections', 'views', 'matviews', 'procedures', 'functions'].map(objectTypeField =>
+      _.sortBy(
+        (($objects || {})[objectTypeField] || []).map(obj => ({ ...obj, objectTypeField })),
+        ['schemaName', 'pureName']
+      )
+    ),
+    ...dbApps.map(app =>
+      app.queries.map(query => ({
+        objectTypeField: 'queries',
+        pureName: query.name,
+        schemaName: app.name,
+        sql: query.sql,
+      }))
+    ),
+  ]);
 </script>
 
 <SearchBoxWrapper>
-  <SearchInput placeholder="Search connection or database" bind:value={filter} />
+  <SearchInput placeholder="Search in database, tables, objects, # prefix in columns" bind:value={filter} />
   <CloseSearchButton bind:filter />
   {#if $commandsCustomized['new.connection']?.enabled}
     <InlineButton on:click={() => runCommand('new.connection')} title="Add new connection">
@@ -135,30 +174,6 @@
   }}
 >
   <AppObjectList
-    list={_.sortBy(connectionsWithParent, connection => (getConnectionLabel(connection) || '').toUpperCase())}
-    module={connectionAppObject}
-    subItemsComponent={SubDatabaseList}
-    expandOnClick
-    isExpandable={data => $openedConnections.includes(data._id) && !data.singleDatabase}
-    {filter}
-    passProps={{ connectionColorFactory: $connectionColorFactory, showPinnedInsteadOfUnpin: true }}
-    getIsExpanded={data => $expandedConnections.includes(data._id) && !data.singleDatabase}
-    setIsExpanded={(data, value) => {
-      expandedConnections.update(old => (value ? [...old, data._id] : old.filter(x => x != data._id)));
-    }}
-    groupIconFunc={chevronExpandIcon}
-    groupFunc={data => data.parent}
-    expandIconFunc={plusExpandIcon}
-    onDropOnGroup={handleDropOnGroup}
-    emptyGroupNames={$emptyConnectionGroupNames}
-    sortGroups
-    groupContextMenu={createGroupContextMenu}
-    collapsedGroupNames={collapsedConnectionGroupNames}
-  />
-  {#if (connectionsWithParent?.length > 0 && connectionsWithoutParent?.length > 0) || ($emptyConnectionGroupNames.length > 0 && connectionsWithoutParent?.length > 0)}
-    <div class="br" />
-  {/if}
-  <AppObjectList
     list={_.sortBy(connectionsWithoutParent, connection => (getConnectionLabel(connection) || '').toUpperCase())}
     module={connectionAppObject}
     subItemsComponent={SubDatabaseList}
@@ -170,6 +185,17 @@
     setIsExpanded={(data, value) => {
       expandedConnections.update(old => (value ? [...old, data._id] : old.filter(x => x != data._id)));
     }}
+  />
+  <AppObjectList
+    list={objectList.map(x => ({ ...x, conid, database }))}
+    module={databaseObjectAppObject}
+    groupFunc={data => getObjectTypeFieldLabel(data.objectTypeField, driver)}
+    subItemsComponent={SubColumnParamList}
+    isExpandable={data =>
+      data.objectTypeField == 'tables' || data.objectTypeField == 'views' || data.objectTypeField == 'matviews'}
+    expandIconFunc={chevronExpandIcon}
+    {filter}
+    passProps={{ showPinnedInsteadOfUnpin: true, connection: $connection }}
   />
   {#if $connections && !$connections.find(x => !x.unsaved) && $openedConnections.length == 0 && $commandsCustomized['new.connection']?.enabled && !$openedTabs.find(x => !x.closedTime && x.tabComponent == 'ConnectionTab' && !x.props?.conid)}
     <LargeButton icon="icon new-connection" on:click={() => runCommand('new.connection')} fillHorizontal

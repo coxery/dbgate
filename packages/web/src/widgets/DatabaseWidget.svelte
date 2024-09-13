@@ -26,14 +26,14 @@
 </script>
 
 <WidgetColumnBar {hidden}>
-  {#if $config?.singleConnection}
+  <!-- {#if $config?.singleConnection}
     <WidgetColumnBarItem title="Databases" name="databases" height="35%" storageName="databasesWidget">
       <SingleConnectionDatabaseList connection={$config?.singleConnection} />
     </WidgetColumnBarItem>
   {:else if !$config?.singleDbConnection}
-    <WidgetColumnBarItem title="Connections" name="connections" height="35%" storageName="connectionsWidget">
+    <WidgetColumnBarItem title="Connections" name="connections" height="35%" storageName="connectionsWidget"> -->
       <ConnectionList />
-    </WidgetColumnBarItem>
+    <!-- </WidgetColumnBarItem>
   {/if}
   <WidgetColumnBarItem
     title="Pinned"
@@ -79,5 +79,5 @@
     <WidgetsInnerContainer>
       <ErrorInfo message="Database not selected" icon="img alert" />
     </WidgetsInnerContainer>
-  </WidgetColumnBarItem>
+  </WidgetColumnBarItem> -->
 </WidgetColumnBar>

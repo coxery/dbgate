@@ -110,7 +110,7 @@
       {/if}
     </span>
   {/if}
-  <DropDownButton menu={getMenu} narrow />
+  <!-- <DropDownButton menu={getMenu} narrow /> -->
   <div class="horizontal-split-handle resizeHandleControl" use:splitterDrag={'clientX'} on:resizeSplitter />
 </div>
 
@@ -149,6 +149,6 @@
     white-space: nowrap;
   }
   .data-type {
-    color: var(--theme-font-3);
+    color: var(--theme-font-link);
   }
 </style>

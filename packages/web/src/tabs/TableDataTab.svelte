@@ -274,10 +274,10 @@
     <!-- <ToolStripCommandButton command="dataGrid.refresh" hideDisabled />
     <ToolStripCommandButton command="dataForm.refresh" hideDisabled /> -->
 
-    <ToolStripCommandButton command="dataForm.goToFirst" hideDisabled />
+    <!-- <ToolStripCommandButton command="dataForm.goToFirst" hideDisabled />
     <ToolStripCommandButton command="dataForm.goToPrevious" hideDisabled />
     <ToolStripCommandButton command="dataForm.goToNext" hideDisabled />
-    <ToolStripCommandButton command="dataForm.goToLast" hideDisabled />
+    <ToolStripCommandButton command="dataForm.goToLast" hideDisabled /> -->
 
     <ToolStripCommandButton
       command="tableData.save"
@@ -286,11 +286,11 @@
     <ToolStripCommandButton command="dataGrid.revertAllChanges" hideDisabled />
     <ToolStripCommandButton command="dataGrid.insertNewRow" hideDisabled />
     <ToolStripCommandButton command="dataGrid.deleteSelectedRows" hideDisabled />
-    <ToolStripCommandButton command="dataGrid.switchToForm" hideDisabled />
-    <ToolStripCommandButton command="dataGrid.switchToTable" hideDisabled />
+    <!-- <ToolStripCommandButton command="dataGrid.switchToForm" hideDisabled />
+    <ToolStripCommandButton command="dataGrid.switchToTable" hideDisabled /> -->
     <ToolStripExportButton {quickExportHandlerRef} />
 
-    <ToolStripButton
+    <!-- <ToolStripButton
       icon="icon structure"
       on:click={() => {
         openNewTab({
@@ -306,11 +306,11 @@
           },
         });
       }}>Open structure</ToolStripButton
-    >
+    > -->
 
-    <ToolStripButton
+    <!-- <ToolStripButton
       icon={$collapsedLeftColumnStore ? 'icon columns-outline' : 'icon columns'}
       on:click={() => collapsedLeftColumnStore.update(x => !x)}>View columns</ToolStripButton
-    >
+    > -->
   </svelte:fragment>
 </ToolStripContainer>

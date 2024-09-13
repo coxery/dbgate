@@ -147,12 +147,12 @@
     collapsedLeftColumnStore.update(x => !x);
   }
 
-  registerMenu(
-    { command: 'dataGrid.switchToForm', tag: 'switch', hideDisabled: true },
-    { command: 'dataGrid.switchToTable', tag: 'switch', hideDisabled: true },
-    { command: 'dataGrid.switchToJson', tag: 'switch', hideDisabled: true },
-    { command: 'dataGrid.toggleLeftPanel', tag: 'switch', hideDisabled: true }
-  );
+  // registerMenu(
+  //   { command: 'dataGrid.switchToForm', tag: 'switch', hideDisabled: true },
+  //   { command: 'dataGrid.switchToTable', tag: 'switch', hideDisabled: true },
+  //   { command: 'dataGrid.switchToJson', tag: 'switch', hideDisabled: true },
+  //   { command: 'dataGrid.toggleLeftPanel', tag: 'switch', hideDisabled: true }
+  // );
 
   $: if (managerSize) setLocalStorage('dataGridManagerWidth', managerSize);
 

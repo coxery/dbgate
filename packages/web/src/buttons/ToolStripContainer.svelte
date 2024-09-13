@@ -16,15 +16,15 @@
 </script>
 
 <div class="wrapper">
-  <div class="content" class:scrollContent>
-    <slot />
-  </div>
-
   {#if isComponentActive}
     <div class="toolstrip">
       <slot name="toolstrip" />
     </div>
   {/if}
+
+  <div class="content" class:scrollContent>
+    <slot />
+  </div>
 </div>
 
 <style>

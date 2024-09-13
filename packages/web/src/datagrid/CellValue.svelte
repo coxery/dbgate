@@ -31,4 +31,7 @@
   .valueCellStyle {
     color: var(--theme-icon-green);
   }
+  .textCellStyle {
+    color: var(--theme-icon-brown);
+  }
 </style>

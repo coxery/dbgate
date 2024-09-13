@@ -174,7 +174,7 @@
   .ext-info {
     font-weight: normal;
     margin-left: 5px;
-    color: var(--theme-font-3);
+    color: var(--theme-font-hover);
   }
   .expand-icon {
     margin-right: 3px;

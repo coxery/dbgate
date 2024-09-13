@@ -15,15 +15,15 @@
 >
   {rowIndex + 1}
 
-  {#if mouseIn && onShowForm}
+  <!-- {#if mouseIn && onShowForm}
     <ShowFormButton on:click={onShowForm} />
-  {/if}
+  {/if} -->
 </td>
 
 <style>
   td {
     border: 1px solid var(--theme-border);
-    text-align: left;
+    text-align: center;
     padding: 2px;
     background-color: var(--theme-bg-1);
     overflow: hidden;

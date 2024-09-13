@@ -52,7 +52,7 @@
   }
 </script>
 
-<tr style={`height: ${rowHeight}px`}>
+<tr class="clickable" style={`height: ${rowHeight}px`}>
   <RowHeaderCell {rowIndex} onShowForm={onSetFormView ? () => onSetFormView(rowData, null) : null} />
   {#each visibleRealColumns as col (col.uniqueName)}
     {#if inplaceEditorState.cell && rowIndex == inplaceEditorState.cell[0] && col.colIndex == inplaceEditorState.cell[1]}
@@ -111,5 +111,8 @@
   }
   tr:nth-child(6n + 6) {
     background-color: var(--theme-bg-alt);
+  }
+  tr.clickable:hover {
+    background: var(--theme-bg-hover);
   }
 </style>

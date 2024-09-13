@@ -52,7 +52,7 @@ export class TableGridDisplay extends GridDisplay {
 
     this.columns = this.getDisplayColumns(this.table, []);
     this.addFormDisplayColumns(this.getDisplayColumns(this.table, []));
-    this.filterable = true;
+    this.filterable = false;
     this.sortable = true;
     this.groupable = true;
     this.editable = !isReadOnly;
